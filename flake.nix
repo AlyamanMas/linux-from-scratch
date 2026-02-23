@@ -9,6 +9,8 @@
     }:
     let
       pkgs = nixpkgs.legacyPackages.x86_64-linux;
+      lfsMntDir = "/mnt/lfs";
+      cpuCoreNumber = 16;
     in
     {
       devShells.x86_64-linux.default =
@@ -27,7 +29,18 @@
               patch
               mount
             ];
-          runScript = "nu";
+          runScript = /* bash */ ''
+            sh -c "exec env -i HOME=$HOME \
+              TERM=$TERM \
+              PS1='\u:\w\$ ' \
+              LFS=${lfsMntDir} \
+              LC_ALL=POSIX \
+              LFS_TGT=x86_64-lfs-linux-gnu \
+              PATH=${lfsMntDir}/tools/bin:/usr/bin \
+              CONFIG_SITE=${lfsMntDir}/usr/share/config.site \
+              MAKEFLAGS=-j${toString cpuCoreNumber} \
+              /usr/bin/bash --norc +h"
+          '';
         }).env;
     };
 }
