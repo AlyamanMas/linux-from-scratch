@@ -1,0 +1,1 @@
+The final system disk image (with ESP and root partition) is `./lfs-disk.img.zst.gpg`. Please note that it is encrypted with the gpg key with ID `515E428AC916D39C` and fingerprint `570D 147B 9514 08C6 2CD8 D530 515E 428A C916 D39C`. It is also compressed with the ZSTD algorithm.
